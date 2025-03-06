@@ -3,6 +3,7 @@
 
 using namespace std;
 #include <iostream>
+#include <vector>
 
 class Piece;
 
@@ -14,8 +15,12 @@ class Square {
         Piece* getPiece();
         void setPiece(Piece* piece);
         void print();
+        bool checkAttacked(char color);
+        void addAttacking(Piece* piece);
+        void clearAttacking();
 
     private:
+        vector<Piece*> attackingPieces;
         char col = 'a';
         int row = 0;
         Piece* piece;

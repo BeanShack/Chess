@@ -19,4 +19,6 @@ add_executable(Chess main.cpp
         Bishop.cpp
         Bishop.h
         Queen.cpp
-        Queen.h)
+        Queen.h
+        King.cpp
+        King.h)

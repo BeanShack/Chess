@@ -1,9 +1,15 @@
 #include "Board.h"
 #include <iomanip>
 #include <cctype>
+#include <iostream>
+#include <algorithm>
+#include <vector>
 
 #include "Piece.h"
+#include <unordered_set>
 
+vector<Piece*> Board::whitePieces;
+vector<Piece*> Board::blackPieces;
 Square* Board::squares[8][8];
 
 void Board::setBoard(){
@@ -22,7 +28,7 @@ Square* Board::getSquare(char col, int row) {
     row = row - 1;
 
     if (colIndex < 0 || colIndex >= 8 || row < 0 || row >= 8) {
-        cout << "ERROR: Out of bounds access in getSquare! col " << colIndex << " row " << row <<  endl;
+        //cout << "ERROR: Out of bounds access in getSquare! col " << colIndex << " row " << row <<  endl;
         return nullptr;
     }
 
@@ -62,3 +68,47 @@ void Board::printBoard() {
 
     cout << "   a   b   c   d   e   f   g   h" << endl; // Column labels
 }
+
+/*
+void Board::fillAttacked() {
+
+    unordered_set<Square*> attackedSquaresBlack;
+    unordered_set<Square*> attackedSquaresWhite;
+    for (Piece* p: Board::whitePieces){
+        if (p == nullptr) {continue;}
+        vector<Square*> possibleSquares = p->getPossibleSquares();
+        attackedSquaresWhite.insert(possibleSquares.begin(), possibleSquares.end());
+    }
+
+    for (Piece* p: Board::blackPieces){
+        if (p == nullptr) {continue;}
+        vector<Square*> possibleSquares = p->getPossibleSquares();
+        attackedSquaresBlack.insert(possibleSquares.begin(), possibleSquares.end());
+    }
+
+    for (Square* s: attackedSquaresWhite){
+        s->setAttacked('w', true);
+    }
+
+    for (Square* s: attackedSquaresBlack){
+        s->setAttacked('b', true);
+    }
+
+    std::vector<Square*> whiteNotAttacked;
+    std::vector<Square*> blackNotAttacked;
+
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            Square* sq = Board::squares[i][j];
+            if (attackedSquaresWhite.find(sq) == attackedSquaresWhite.end()) {
+                sq->setAttacked('w', false);
+            }
+            if (attackedSquaresBlack.find(sq) == attackedSquaresBlack.end()) {
+                sq->setAttacked('b', false);
+            }
+        }
+    }
+
+
+}
+ */

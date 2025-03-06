@@ -1,8 +1,10 @@
 #include "Square.h"
 
 #include <optional>
+#include <unordered_set>
 
 #include "Piece.h"
+#include "Board.h"
 
 Square::Square(int row, char col) {
     //cout<<col<<endl;
@@ -30,12 +32,12 @@ Piece* Square::getPiece() {
 }
 
 void Square::setPiece(Piece* piece) {
-    cout << "COLUMN: " << this->col << endl;
-    cout << "ROW: " << to_string(this->row) << endl;
-    cout << "SETTING PIECE ON SQUARE " << (this->col) << " " + to_string(this->row) << endl;
+    //cout << "COLUMN: " << this->col << endl;
+    //cout << "ROW: " << to_string(this->row) << endl;
+    //cout << "SETTING PIECE ON SQUARE " << (this->col) << " " + to_string(this->row) << endl;
 
     if (this->getPiece() != nullptr && piece != nullptr) {
-        cout << "CAPPED A PIECE" << endl;
+        //cout << "CAPPED A PIECE" << endl;
         delete(this->piece);
     }
 
@@ -44,4 +46,21 @@ void Square::setPiece(Piece* piece) {
 
 void Square::print() {
     cout << "Square " << (this->col) << " " + to_string(this->row) << endl;
+}
+
+void Square::addAttacking(Piece* piece) {
+    this->attackingPieces.push_back(piece);
+}
+
+void Square::clearAttacking(){
+    this->attackingPieces.clear();
+}
+
+bool Square::checkAttacked(char color) {
+    for (Piece* p: this->attackingPieces){
+        if (p->getColor() != color){
+            return true;
+        }
+    }
+    return false;
 }

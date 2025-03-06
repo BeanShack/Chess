@@ -11,8 +11,15 @@ Piece::Piece(char col, int row, char color) {
     } else {
         throw std::invalid_argument("Invalid color");
     }
-    cout << col << endl;
-    cout << row << endl;
+    // cout << col << endl;
+    // cout << row << endl;
+
+    if (color == 'w') {
+        Board::whitePieces.push_back(this);
+    } else {
+        Board::blackPieces.push_back(this);
+    }
+
     Board::getSquare(col, row)->setPiece(this);
 }
 
@@ -34,7 +41,6 @@ char Piece::getColor() const {
 }
 
 void Piece::move(char col, int row) {
-    this->getPossibleSquares();
     cout << "COLUMN: " << col << endl;
     cout << "ROW: " << row << endl;
     Square* square = Board::getSquare(col, row);

@@ -6,6 +6,9 @@
 #include "Rook.h"
 #include "Bishop.h"
 #include "Queen.h"
+#include "King.h"
+#include <unordered_set>
+
 using namespace std;
 
 int main() {
@@ -23,17 +26,22 @@ int main() {
     new Bishop('g', 1, 'w');
     new Bishop('g', 8, 'b');
     new Queen('d', 1, 'w');
+    new Rook('f', 1, 'b');
+    King* whiteKing = new King('e', 1, 'w');
+    King* blackKing = new King('e', 8, 'b');
+
 
     string firstPos;
     string secondPos;
 
-    Board::getSquare('a', 2)->getPiece()->print();
+    //Board::getSquare('a', 2)->getPiece()->print();
 
+    string turn = "White";
     while (true) {
         Board::printBoard();
 
 
-        cout << "Please input your move in the format 'moving_piece_position moving_to'. For example (e2 e4): ";
+        cout << turn << " please input your move in the format 'moving_piece_position moving_to'. For example (e2 e4): ";
         cin >> firstPos;
 
         if (firstPos == "exit") {
@@ -58,9 +66,31 @@ int main() {
                 throw runtime_error("no piece there");
             }
             movingPiece->print();
+            if (movingPiece->getColor() != tolower(turn[0])) {
+                throw runtime_error("not your turn");
+            }
+
             movingPiece->move(secondPos[0], secondPos[1] - '0');
-        } catch (const exception e){
-            cout << "Not a proper move, try again" << endl;
+
+
+            if (whiteKing->isCheckmated()){
+                cout << "White is checkmated" << endl;
+                break;
+            }
+
+            if (blackKing->isCheckmated()){
+                cout << "Black is checkmated" << endl;
+                break;
+            }
+
+
+            if (turn == "White") {
+                turn = "Black";
+            } else {
+                turn = "White";
+            }
+        } catch (const exception& e){
+            cout << e.what() << ", try again" << endl;
         }
     }
 
